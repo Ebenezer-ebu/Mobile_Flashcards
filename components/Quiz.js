@@ -5,7 +5,8 @@ import QuizList from "./QuizList";
 import { gray, white } from "../utils/colors";
 
 function Quiz(props) {
-  const { route, state } = props;
+    const { route, state, navigation } = props;
+    console.log(props, 'Yessssssssss');
   const { item } = route.params;
   if (state[item].questions.length === 0) {
     return (
@@ -18,7 +19,7 @@ function Quiz(props) {
   }
   return (
     <View style={styles.container}>
-      <QuizList questions={state[item].questions} />
+      <QuizList questions={state[item].questions} navigation={navigation}/>
     </View>
   );
 }

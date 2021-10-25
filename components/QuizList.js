@@ -18,7 +18,8 @@ function QuizList(props) {
     showAnswer: false,
     set: [],
   });
-  const { questions } = props;
+  const { questions, state, navigation} = props;
+  console.log(props);
   const handleCorrect = () => {
     const { set } = quiz;
     setQuiz({
@@ -43,6 +44,16 @@ function QuizList(props) {
     });
   };
 
+  const handleRestart = () => {
+    setQuiz({
+      index: 0,
+      count: 1,
+      grade: 0,
+      showAnswer: false,
+      set: [],
+    });
+  };
+
   const handleSwap = () => {
     setQuiz({
       ...quiz,
@@ -53,7 +64,32 @@ function QuizList(props) {
   useEffect(() => {
     const setArr = getNewQuestion(questions, quiz.index);
     setQuiz({ ...quiz, set: setArr });
-  }, [quiz.count]);
+  }, [quiz.index]);
+
+  if (quiz.index === questions.length) {
+    const percentScore = (quiz.grade / questions.length) * 100;
+    return (
+      <View style={styles.container}>
+        <Text style={styles.question}>
+          Horray!!!, you have finished answering all the questions
+        </Text>
+        <Text style={styles.length}>Score: {percentScore} % </Text>
+        <View style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={handleRestart}>
+            <Text style={styles.buttonText}>Restart Quiz</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.buttonText}>Go Back</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -75,7 +111,7 @@ function QuizList(props) {
               <View>
                 <Text style={styles.question}>{item.question}</Text>
                 <TouchableOpacity onPress={handleSwap}>
-                  <Text style={styles.answer}>Answer</Text>
+                  <Text style={styles.answer}>Show Answer</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -137,10 +173,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(state, { questions }) {
+function mapStateToProps(state, { questions, navigation }) {
   return {
     state,
     questions,
+    navigation,
   };
 }
 

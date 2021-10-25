@@ -29,8 +29,10 @@ function AddDeck(props) {
     };
     let key = Object.keys(state);
     if (!key.includes(data.title)) {
+      const item = data.title;
+      const decks = state;
       dispatch(newDeck(details));
-      navigation.goBack();
+      navigation.navigate('Card', {decks, item});
     } else {
       Alert.alert(
         "Alert Title",
