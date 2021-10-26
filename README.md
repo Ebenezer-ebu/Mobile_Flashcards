@@ -19,4 +19,5 @@ You run the command below to start expo
     expo start -c
 ``` 
 
-Follow the instructions from the terminal to running for Ios or Android.
+### Platform tested on
+Ios Platform IPhone 12 ios 15.0 was used as the device for testing of the application.
