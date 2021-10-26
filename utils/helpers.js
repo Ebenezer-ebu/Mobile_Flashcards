@@ -1,5 +1,4 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
@@ -14,8 +13,8 @@ export function clearLocalNotification() {
 
 function createNotification() {
   return {
-    title: "Log your stats",
-    body: "👋🏼 don't forget to log your stats for today!",
+    title: "Create a deck",
+    body: "👋🏼 don't forget to create a deck today with cards!",
     ios: {
       sound: true,
     },
@@ -29,11 +28,12 @@ function createNotification() {
 }
 
 export function setLocalNotification() {
+  console.log('got notifications')
   AsyncStorage.getItem(NOTIFICATIONS_KEY)
     .then(JSON.parse)
     .then((data) => {
       if (data === null) {
-        Permissions.askAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
+        Permissions.getAsync(Permissions.NOTIFICATIONS).then(({ status }) => {
           if (status === "granted") {
             Notifications.cancelAllScheduledNotificationsAsync();
 
@@ -51,6 +51,7 @@ export function setLocalNotification() {
           }
         });
       }
+      console.log("Data: ",data)
     });
 }
 

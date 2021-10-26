@@ -12,7 +12,11 @@ import {
 } from "react-native";
 import { newDeck } from "../actions";
 import { white, green, gray } from "../utils/colors";
-import { uniqueId } from "../utils/helpers";
+import {
+  uniqueId,
+  clearLocalNotification,
+  setLocalNotification,
+} from "../utils/helpers";
 
 function AddDeck(props) {
   const {
@@ -32,7 +36,10 @@ function AddDeck(props) {
       const item = data.title;
       const decks = state;
       dispatch(newDeck(details));
-      navigation.navigate('Card', {decks, item});
+      
+      clearLocalNotification().then(setLocalNotification);
+
+      navigation.navigate("Card", { decks, item });
     } else {
       Alert.alert(
         "Alert Title",
